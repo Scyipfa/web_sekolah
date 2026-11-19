@@ -1,0 +1,73 @@
+export const SCHEMA_SQL = `
+CREATE TABLE IF NOT EXISTS tbl_user (
+  id SERIAL PRIMARY KEY,
+  username VARCHAR(50) NOT NULL UNIQUE,
+  password VARCHAR(256) NOT NULL,
+  nama VARCHAR(128) NOT NULL,
+  alamat VARCHAR(128) NOT NULL DEFAULT '',
+  jabatan VARCHAR(128) NOT NULL DEFAULT '',
+  foto VARCHAR(128) NOT NULL DEFAULT ''
+);
+CREATE TABLE IF NOT EXISTS tbl_sekolah (
+  id SERIAL PRIMARY KEY,
+  nama VARCHAR(128) NOT NULL,
+  alamat VARCHAR(128) NOT NULL DEFAULT '',
+  akreditasi VARCHAR(1) NOT NULL DEFAULT '',
+  status VARCHAR(10) NOT NULL DEFAULT '',
+  email VARCHAR(100) NOT NULL DEFAULT '',
+  visimisi TEXT NOT NULL DEFAULT '',
+  gambar VARCHAR(100) NOT NULL DEFAULT ''
+);
+CREATE TABLE IF NOT EXISTS tbl_jurusan (
+  id SERIAL PRIMARY KEY,
+  jurusan VARCHAR(50) NOT NULL UNIQUE
+);
+CREATE TABLE IF NOT EXISTS tbl_siswa (
+  nis VARCHAR(6) PRIMARY KEY,
+  nama VARCHAR(100) NOT NULL,
+  alamat VARCHAR(128) NOT NULL DEFAULT '',
+  kelas VARCHAR(3) NOT NULL,
+  jurusan VARCHAR(50) NOT NULL DEFAULT '',
+  foto VARCHAR(50) NOT NULL DEFAULT ''
+);
+CREATE TABLE IF NOT EXISTS tbl_guru (
+  id SERIAL PRIMARY KEY,
+  nip VARCHAR(30) NOT NULL,
+  nama VARCHAR(100) NOT NULL,
+  alamat VARCHAR(128) NOT NULL DEFAULT '',
+  telepon VARCHAR(20) NOT NULL DEFAULT '',
+  agama VARCHAR(20) NOT NULL DEFAULT '',
+  foto VARCHAR(20) NOT NULL DEFAULT ''
+);
+CREATE TABLE IF NOT EXISTS tbl_pelajaran (
+  id SERIAL PRIMARY KEY,
+  pelajaran VARCHAR(50) NOT NULL,
+  jurusan VARCHAR(50) NOT NULL DEFAULT '',
+  guru VARCHAR(50) NOT NULL DEFAULT ''
+);
+CREATE TABLE IF NOT EXISTS tbl_ujian (
+  no_ujian VARCHAR(7) PRIMARY KEY,
+  tgl_ujian DATE NOT NULL,
+  nis VARCHAR(6) NOT NULL,
+  jurusan VARCHAR(50) NOT NULL DEFAULT '',
+  total_nilai INT NOT NULL,
+  nilai_terendah INT NOT NULL,
+  nilai_tertinggi INT NOT NULL,
+  nilai_rata2 INT NOT NULL,
+  hasil_ujian VARCHAR(10) NOT NULL
+);
+CREATE TABLE IF NOT EXISTS tbl_nilai_ujian (
+  id SERIAL PRIMARY KEY,
+  no_ujian VARCHAR(7) NOT NULL,
+  pelajaran VARCHAR(100) NOT NULL,
+  nilai_ujian INT NOT NULL
+);
+CREATE INDEX IF NOT EXISTS idx_nilai_no_ujian ON tbl_nilai_ujian (no_ujian);
+CREATE INDEX IF NOT EXISTS idx_ujian_nis ON tbl_ujian (nis);
+CREATE TABLE IF NOT EXISTS tbl_file (
+  name VARCHAR(40) PRIMARY KEY,
+  mime VARCHAR(50) NOT NULL,
+  data BYTEA NOT NULL,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+`;
